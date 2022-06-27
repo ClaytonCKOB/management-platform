@@ -16,7 +16,7 @@ class Costumer():
     email: list
 
     def __str__(self):
-        return f'{self.name} - {self.cpf_cnpj}'
+        return f'{self.name} - {self.cpf_cnpj} - {self.street} - {self.district} - {self.city} - {self.state}'
 
     def compareCostumers(self, costumer2):
         """
