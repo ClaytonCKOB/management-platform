@@ -11,7 +11,7 @@ import sys
 
 sys.path.append("C:/Users/ti/Desktop/web_manager/modules")
 import constants as const
-from costumer import Costumer
+from costumer import Costumer, CostumerPipe 
 
 
 
@@ -226,7 +226,26 @@ class Auvo_api():
 
         response = requests.post('https://api.auvo.com.br/v2/customers/', json=json.loads(json.dumps(values)), headers=self.headers)
 
+    def existsInAuvo(self, costumer:CostumerPipe):
+        """
+            Will compare the given costumer with all the costumers 
+        """
+        result = []
+        
+        for i in range(len(self.costumers)):
+            response = self.costumers[i].compareCostumers(costumer)
+            if response >= 0.9:
+                result.append(self.costumers[i])
+                
+        if result != []:
+            print("FOUND!")
+            print(costumer)
+            for i in result:
+                print(i)
+        else:
+            print("NOT FOUND!")
 
+        return result
 
 
 

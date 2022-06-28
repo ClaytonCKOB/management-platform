@@ -6,6 +6,11 @@ import sys
 sys.path.append("C:/Users/ti/Desktop/web_manager/modules")
 #from packing.src.classes.relatorio import criarRelatorio
 
+from pipedrive.pipedrive import Pipedrive 
+
+inst = Pipedrive()
+inst.createCostumers(inst.getCostumers())
+
 
 # Create your views here.
 
@@ -13,7 +18,7 @@ def index(response):
     return render(response, "main/base.html", {})
 
 def client(response):
-    return render(response, "main/clients.html", {})
+    return render(response, "main/clients.html", {'costumers':inst.costumers})
 
 def tracking(response):
     return render(response, "main/tracking.html", {})
@@ -25,6 +30,6 @@ def packing(response):
         if form.is_valid():
             pass
             #criarRelatorio("9009", "Embalagem")
-    else:
-        form = CreateForm()
-    return render(response, "main/packing.html", {"form":form})
+        else:
+            form = CreateForm()
+    return render(response, "main/packing.html", {'form':form})

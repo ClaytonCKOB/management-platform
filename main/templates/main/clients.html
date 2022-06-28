@@ -1,8 +1,13 @@
 {% extends "main/base.html" %}
 
 {% block content %}
-<form action="post">
-    <input type="text">
-    <button type="submit">Submit</button>
-</form>
+<h1 style="margin: 20px auto;">Escolha o cliente para a integração</h1>
+{% for costumer in costumers %}
+    <a href="#" class="costumer">
+        <h2>{{costumer.name}}</h2>
+        <p><b>Telefone:</b> {{costumer.phoneNumber}}</p>
+        <p><b>Email:</b> {{costumer.email.0}}</p>
+        <p><b>Endereço:</b> {{costumer.street}} - {{costumer.district}} - {{costumer.state}}</p>
+    </a>
+{% endfor %}
 {% endblock %}

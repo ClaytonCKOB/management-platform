@@ -1,6 +1,29 @@
+.costumer{
+    margin: 20px auto;
+    width: 90%;
+    height: 15vh;
+    box-sizing: border-box;
+    padding: 10px;
+    background-color: #555;
+    color: #fff;
+    border-radius: 6px;
+    display: block;
+    text-decoration: none;
+    text-align: left;
+
+}
+
+.costumer p{
+    margin: 4px;
+}
+
+.costumer h2{
+    margin: 10px 0;
+}
+
 ::-webkit-scrollbar {
     width: 8px;
-  }
+}
   
   /* Track */
   ::-webkit-scrollbar-track {

@@ -111,7 +111,7 @@ class Costumer():
 
 
 
-if __name__ == "__main__":
-    inst = Costumer("Polimento e Anodizacao de Metais At Ltda", "46540079036", "", "51999999999", "Av. Farrapos", "claudio@gmail.com", [""])
-
-    print(inst.compareName("Polimento e Anodização de Metais AT"))
+@dataclass
+class CostumerPipe(Costumer):
+    auvo: bool
+    sysop: bool
