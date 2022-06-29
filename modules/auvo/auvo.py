@@ -239,9 +239,6 @@ class Auvo_api():
                 
         if result != []:
             print("FOUND!")
-            print(costumer)
-            for i in result:
-                print(i)
         else:
             print("NOT FOUND!")
 

@@ -1,7 +1,7 @@
 {% extends "main/base.html" %}
 
 {% block content %}
-<h1 style="margin: 20px auto;">Escolha o cliente para a integração</h1>
+<h1 id="titulo">Escolha o cliente para a integração</h1>
 {% for costumer in costumers %}
     <a href="#" class="costumer">
         <h2>{{costumer.name}}</h2>

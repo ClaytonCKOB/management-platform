@@ -1,6 +1,9 @@
 # This file will contain the class that represents the pipedrive
+from asyncio.windows_events import NULL
+import json
 import sys
 import requests
+from sqlalchemy import null
 
 
 sys.path.append("C:/Users/ti/Desktop/web_manager/modules")
@@ -17,7 +20,7 @@ class Pipedrive:
         """
             Will request to the api all the costumers
         """
-        response = requests.get(f'https://reflexapersianas.pipedrive.com/api/v1/persons:(name,add_time,phone,org_id,email)?limit=20&sort=add_time DESC&api_token='+const.PIPE_TOKEN)
+        response = requests.get('https://reflexapersianas.pipedrive.com/api/v1/persons:(name,add_time,phone,org_id,email)?filter_id=64&limit=20&sort=add_time DESC&api_token='+const.PIPE_TOKEN)
         response = response.json()
         response = response['data']
 
@@ -58,4 +61,3 @@ class Pipedrive:
         
         for i in self.costumers:
             print(i)
-
