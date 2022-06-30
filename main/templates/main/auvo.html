@@ -1,0 +1,30 @@
+{% extends "main/base.html" %}
+
+{% block title %}
+id
+{% endblock %}
+
+{% block content %}
+<h1 id="titulo">Integração do cliente com a Auvo</h1>
+<div class="costumers_div">
+    {% for costumer in costumers%}
+        {% if costumer.id == id %}
+            <div class="main_costumer">
+                <h2>{{costumer.name}}</h2>
+                <p><b>Telefone:</b> {{costumer.phoneNumber}}</p>
+                <p><b>Email:</b> {{costumer.email.0}}</p>
+                <p><b>Endereço:</b> {{costumer.street}} - {{costumer.district}} - {{costumer.state}}</p>
+            </div>
+        {% endif %}
+    {% endfor %}
+    
+    <div class="other_costumer"><p>Este é um cliente</p></div>
+</div>
+<form method="post" action="#">
+    {% csrf_token %}
+    <button type="submit">
+        Adicionar
+    </button>
+</form>
+
+{% endblock %}

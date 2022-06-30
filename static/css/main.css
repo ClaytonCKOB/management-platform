@@ -24,6 +24,7 @@
 .titulo{
     margin: 10px 10px;
     display: block;
+    color: #4723D9;
 }
 
 .main_div{
@@ -36,6 +37,44 @@
     margin: 15vh auto;
 
 }
+
+.costumers_div{
+    padding: 10px;
+    min-height: 40vh;
+    min-width: 50vw; 
+    max-width: 80vw; 
+    max-height: 60vh;
+    margin: 0 auto;
+    display: flex;
+
+}
+
+.main_costumer{
+    flex: 1;
+    margin: 10px;
+    min-height: 40vh;
+    max-width: 40vw;
+    max-height: 60vh;
+    background-color: #555;
+    color: #fff;
+    box-sizing: border-box;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+.other_costumer{
+    flex: 2;
+    margin: 10px;
+    min-height: 40vh;
+    max-width: 35vw;
+    max-height: 60vh;
+    background-color: #555;
+    color: #fff;
+    box-sizing: border-box;
+    padding: 10px;
+    border-radius: 6px;
+}
+
 
 ::-webkit-scrollbar {
     width: 8px;

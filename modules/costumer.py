@@ -14,6 +14,7 @@ class Costumer():
     city: str
     state: str
     email: list
+    
 
     def __str__(self):
         return f'{self.name} - {self.cpf_cnpj} - {self.street} - {self.district} - {self.city} - {self.state}'
@@ -115,3 +116,4 @@ class Costumer():
 class CostumerPipe(Costumer):
     auvo: bool
     sysop: bool
+    id: int
