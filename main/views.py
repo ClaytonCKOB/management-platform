@@ -27,11 +27,11 @@ def auvoPage(response, id):
     form = CreateForm(response.POST)
     if response.method == "POST":
 
-        if form.is_valid():
-            print("ENVIADO!")
+        for costumer in inst.costumers:
+            if costumer.id == id:
+                print("is valid!")
+                auvo.insertCostumer(costumer)
 
-        else:
-            form = CreateForm()
     return render(response, "main/auvo.html", {'costumers':inst.costumers, 'id':id})
 
 def tracking(response):

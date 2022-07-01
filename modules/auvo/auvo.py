@@ -4,6 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import datetime
+from datetime import date, datetime
 import time
 import requests
 import json
@@ -165,7 +166,7 @@ class Auvo_api():
         :Args 
             costumers_req - list 
         """
-        i = 0
+        
         for costumer in costumers_req:
             address = costumer['address'].split(",")
             street = address[0]
@@ -177,54 +178,51 @@ class Auvo_api():
             phoneNumber = costumer['phoneNumber'][0] if len(costumer['phoneNumber']) >= 1 else ""
 
             self.costumers.append(Costumer(costumer['description'], costumer['cpfCnpj'], costumer['creationDate'], phoneNumber, street, district, city, state, costumer['email']))
-            print(self.costumers[i])
-            i += 1
 
-    def insertCostumer(self, costumer:Costumer):
+
+    def insertCostumer(self, costumer:CostumerPipe):
         """
             Will insert in the auvo's plataform
         
         :Args 
             costumer: Costumer
         """
+        today = date.today()
+        now = datetime.now()
+
+
         values = {
-              "externalId": "906",
-              "name": costumer.name,
-              "cpfCnpj": costumer.cpf_cnpj,
-              "phoneNumber": [
-                costumer.phoneNumber
-              ],
-              "email": [
-                costumer.email
-              ],
-              "manager": "Oristides",
-              "managerJobPosition": "Manager",
-              "note": "nothing to say",
-              "address": costumer.address,
-              "latitude": -16.6872086111083,
-              "longitude": -49.2995542287827,
-              "maximumVisitTime": 1,
-              "unitMaximumTime": 1,
-              "groupsId": [
-                0
-              ],
-              "managerTeamsId": [
-                0
-              ],
-              "managersId": [
-                0
-              ],
-              "segmentId": 1,
-              "active": False,
-              "adressComplement": "",
-              "creationDate": "",
-              "contacts": [],
-              "dateLastUpdate": "",
-              "attachments": []
-            }
-            
+            "externalId": costumer.id,
+            "name": costumer.name,
+            "cpfCnpj": costumer.cpf_cnpj,
+            "phoneNumber": [
+              costumer.phoneNumber
+            ],
+            "email": costumer.email,
+            "manager": "Ti",
+            "managerJobPosition": "Developer",
+            "note": "",
+            "address": costumer.street + " - " + costumer.district + " - " + costumer.city + " - " + costumer.state,
+            "latitude": 0,
+            "longitude": 0,
+            "maximumVisitTime": 1,
+            "unitMaximumTime": 1,
+            "groupsId": [],
+            "managerTeamsId": [],
+            "managersId": [],
+            "segmentId": 0,
+            "active": False,
+            "adressComplement": "",
+            "creationDate": f"{today.year}-{today.month}-{today.day}T{now.hour}:{now.minute}:{now.second}",
+            "contacts": [],
+            "dateLastUpdate": f"{today.year}-{today.month}-{today.day}T{now.hour}:{now.minute}:{now.second}",
+            "attachments": []
+        }
+
+        
 
         response = requests.post('https://api.auvo.com.br/v2/customers/', json=json.loads(json.dumps(values)), headers=self.headers)
+        return response
 
     def existsInAuvo(self, costumer:CostumerPipe):
         """
@@ -514,5 +512,6 @@ class Auvo(Auvo_api):
 
 if __name__ == "__main__":
     auvo = Auvo_api()
-    request = auvo.getCostumers()
-    auvo.createCostumers(request)
+
+    clayton = CostumerPipe("Clayton", "71980889023", "", "51999999999", "Rua São Lázaro", "Cidade Verde", "Eldorado do Sul", "RS", ["ti@reflexapersianas.com.br"], False, False, 9000)
+    auvo.insertCostumer(clayton)
