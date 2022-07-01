@@ -34,7 +34,14 @@ class Pipedrive:
         #sysop = Sysop()
         #sysop.createCostumers(sysop.getCostumers())
 
+
         for i in costumers:
+            if i['phone'][0]['value'] != "":
+                phone = i['phone'][0]['value'].replace("(", "").replace(")", "").replace("+", "").replace(" ", "").replace("-", "")
+                phone = phone if phone[0] != "0" else phone[1:len(phone)]
+                phone = phone if phone[0:2] != "55" else phone[2:len(phone)]
+                
+
             if i['org_id'] is not None and i['org_id']['address'] is not None:
                 separator = '|' if '|' in i['org_id']['address'] else ',' 
                 address = i['org_id']['address'].split(separator)
@@ -54,7 +61,7 @@ class Pipedrive:
 
             response = auvo.existsInAuvo(Costumer(i['name'], '', i['add_time'], i['phone'][0]['value'].replace("(", "").replace(")", ""), street, district, city, state, [i['email'][0]['value']]))
             if response == []:
-                self.costumers.append(CostumerPipe(i['name'], '', i['add_time'], i['phone'][0]['value'].replace("(", "").replace(")", ""), street, district, city, state, [i['email'][0]['value']], False, False, i['id']))
+                self.costumers.append(CostumerPipe(i['name'], '', i['add_time'], phone, street, district, city, state, [i['email'][0]['value']], False, False, i['id']))
         
         for i in self.costumers:
             print(i)

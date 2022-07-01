@@ -1,11 +1,11 @@
 {% extends "main/base.html" %}
 
 {% block title %}
-id
+Sysop
 {% endblock %}
 
 {% block content %}
-<h1 id="titulo">Integração do cliente com a Auvo</h1>
+<h1 id="titulo">Integração do cliente com o Sysop</h1>
 <div class="costumers_div">
     {% for costumer in costumers%}
         {% if costumer.id == id %}
@@ -14,7 +14,6 @@ id
                 <p><b>Telefone:</b> {{costumer.phoneNumber}}</p>
                 <p><b>Email:</b> {{costumer.email.0}}</p>
                 <p><b>Endereço:</b> {{costumer.street}} - {{costumer.district}} - {{costumer.state}}</p>
-                <p><b>CPF/CNPJ:</b> {{costumer.cpf_cnpj}}</p>
             </div>
         {% endif %}
     {% endfor %}

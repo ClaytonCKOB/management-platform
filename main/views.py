@@ -31,6 +31,17 @@ def auvoPage(response, id):
             if costumer.id == id:
                 print("is valid!")
                 auvo.insertCostumer(costumer)
+                sysopPage(response, id)
+
+    return render(response, "main/auvo.html", {'costumers':inst.costumers, 'id':id})
+
+def sysopPage(response, id):
+
+    if response.method == "POST":
+        for costumer in inst.costumers:
+            if costumer.id == id:
+                print("is valid!")
+                auvo.insertCostumer(costumer)
 
     return render(response, "main/auvo.html", {'costumers':inst.costumers, 'id':id})
 
