@@ -5,27 +5,34 @@ id
 {% endblock %}
 
 {% block content %}
-<h1 id="titulo">Integração do cliente com a Auvo</h1>
+<h1 id="titulo">Integração do negócio com a Auvo</h1>
 <div class="costumers_div">
-    {% for costumer in costumers%}
-        {% if costumer.id == id %}
+    {% for deal in deals%}
+        {% if deal.id == id %}
             <div class="main_costumer">
-                <h2>{{costumer.name}}</h2>
-                <p><b>Telefone:</b> {{costumer.phoneNumber}}</p>
-                <p><b>Email:</b> {{costumer.email.0}}</p>
-                <p><b>Endereço:</b> {{costumer.street}} - {{costumer.district}} - {{costumer.state}}</p>
-                <p><b>CPF/CNPJ:</b> {{costumer.cpf_cnpj}}</p>
+                <h2>{{deal.title}}</h2>
+                <p><b>Telefone:</b> {{deal.cosutmer.phone}}</p>
+                <p><b>Email:</b> {{deal.email}}</p>
+                <p><b>Endereço:</b> {{deal.street}} - {{deal.district}} - {{deal.city}} - {{deal.state}}</p>
+                <p><b>Empresa:</b> {{deal.organization.name}}</p>
             </div>
         {% endif %}
     {% endfor %}
     
-    <div class="other_costumer"><p>Este é um cliente</p></div>
+    <!-- <div class="other_costumer"><p>Este é um cliente</p></div> -->
 </div>
 <form method="post" action="#">
     {% csrf_token %}
-    <button type="submit">
-        Adicionar
-    </button>
+    <div class="buttons">
+        <button type="submit" class="btn_add">
+            Adicionar
+        </button>
+        <button type="submit" class="btn_jmp">
+            Pular
+        </button>
+    </div>
 </form>
+
+
 
 {% endblock %}

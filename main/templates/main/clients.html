@@ -1,17 +1,14 @@
 {% extends "main/base.html" %}
 
 {% block title %}
-id
+Clientes 
 {% endblock %}
 
 {% block content %}
 <h1 id="titulo">Escolha o cliente para a integração</h1>
-{% for costumer in costumers %}
-    <a href="auvo/{{costumer.id}}" class="costumer">
-        <h2>{{costumer.name}}</h2>
-        <p><b>Telefone:</b> {{costumer.phoneNumber}}</p>
-        <p><b>Email:</b> {{costumer.email.0}}</p>
-        <p><b>Endereço:</b> {{costumer.street}} - {{costumer.district}} - {{costumer.state}}</p>
+{% for deal in deals %}
+    <a href="auvo/{{deal.id}}" class="costumer">
+        <div id="costumer_name"><h2>{{deal.title}}</h2></div>
     </a>
 {% endfor %}
 {% endblock %}

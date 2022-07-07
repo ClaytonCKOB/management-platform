@@ -4,7 +4,7 @@ import os
 import sys
 
 sys.path.append("C:/Users/ti/Desktop/web_manager/modules")
-from costumer import Costumer
+from costumer import Costumer, CostumerPipe
 
 
 class Sysop():
@@ -12,8 +12,7 @@ class Sysop():
         self.costumers = []
 
         db_path = os.environ["DB_PATH"]
-        self.conn = pyodbc.connect(r"DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};"
-                                   f"DBQ={db_path};")
+        self.conn = pyodbc.connect(r"DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};" + f"DBQ={db_path};")
         self.cursor = self.conn.cursor()
     
     def getCostumers(self):
@@ -21,7 +20,7 @@ class Sysop():
             Will request to the database the list of costumers
         """
 
-        costumers = self.cursor.execute("SELECT cliente, CNPJ, dt_visita, Fone, endereco, num, Bairro, Cidade, UF, mail FROM t_cliente WHERE IDCad > 3000").fetchall()
+        costumers = self.cursor.execute("SELECT cliente, CNPJ, dt_visita, Fone, endereco, num, Bairro, Cidade, UF, mail FROM t_cliente").fetchall()
         return costumers
     
     def createCostumers(self, request:list):
@@ -36,6 +35,19 @@ class Sysop():
                 costumer[x] = costumer[x] if costumer[x] is not None else ""
             self.costumers.append(Costumer(costumer[0], costumer[1], costumer[2], costumer[3], str(costumer[4]) + " " + str(costumer[5]), str(costumer[6]), str(costumer[7]), str(costumer[8]), [costumer[9]]))
 
+
+    def insertCostumer(self, costumer:CostumerPipe):
+        """
+            Will insert the costumer in the sysop database
+
+        :Args
+            costumer -> CostumerPipe 
+
+        """
+        query = f"INSERT INTO t_cliente (cliente, fantasia, CNPJ, dt_visita, Fone, endereco, Bairro, Cidade, UF, mail) VALUES ('{costumer.name}', '{costumer.name}', '{costumer.cpf_cnpj}', '{costumer.creationDate}', '{costumer.phoneNumber}', '{costumer.street}', '{costumer.district}', '{costumer.city}', '{costumer.state}', '{costumer.email[0]}');"
+        response = self.cursor.execute(query)
+        response = response.commit()
+        return response
 
     def existsInSysop(self, costumer:Costumer):
         """
@@ -60,7 +72,8 @@ class Sysop():
 
 if __name__ == "__main__":
     inst = Sysop()
+    clayton = CostumerPipe("Clayton", "71980889023", "01-07-2022", "51999999999", "RuaSãoLázaro", "CidadeVerde", "EldoradodoSul", "RS", ["ti"], False, False, 9000)
+
     request = inst.getCostumers()
-    inst.createCostumers(request)
-    costumer = inst.costumers[25]
-    inst.existsInSysop(costumer)
+    inst.insertCostumer(clayton)
+    request = inst.getCostumers()

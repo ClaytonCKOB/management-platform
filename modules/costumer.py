@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from unidecode import unidecode
 
 @dataclass
-class Costumer():
+class CostumerPipe():
     name: str
     cpf_cnpj: str
     creationDate: str
@@ -14,6 +14,9 @@ class Costumer():
     city: str
     state: str
     email: list
+    auvo: bool
+    sysop: bool
+    id: int
     
 
     def __str__(self):
@@ -113,7 +116,48 @@ class Costumer():
 
 
 @dataclass
-class CostumerPipe(Costumer):
-    auvo: bool
-    sysop: bool
+class Costumer():
     id: int
+    name: str
+    email: str
+    phone: str
+
+@dataclass
+class Organization():
+    id: int
+    name: str
+    value: int
+    cnpj: str
+    street_number: int = None
+    street: str = None
+    district: str = None
+    city: str = None
+    state: str = None
+    address: str = None
+    
+
+@dataclass
+class Deal():
+    id: int
+    title: str
+    street_number: int
+    street: str
+    district: str
+    city: str
+    state: str
+    email: str
+    organization: Organization = None
+    costumer: CostumerPipe = None
+
+    def __post_init__(self):
+        index = 0
+        length = len(self.title)
+
+        # Removing the code of the deal
+        if '(' in self.title:
+            for i in range(length):
+                if self.title[i] == ')':
+                    index = i
+            self.title = self.title[index+1:length] if length != index + 1 else self.title
+
+

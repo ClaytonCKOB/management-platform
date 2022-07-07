@@ -22,9 +22,14 @@ Sysop
 </div>
 <form method="post" action="#">
     {% csrf_token %}
-    <button type="submit">
-        Adicionar
-    </button>
+    <div class="buttons">
+        <button type="submit" class="btn_add">
+            Adicionar
+        </button>
+        <button type="submit" class="btn_jmp">
+            Pular
+        </button>
+    </div>
 </form>
 
 {% endblock %}

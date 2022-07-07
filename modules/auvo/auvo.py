@@ -10,9 +10,10 @@ import requests
 import json
 import sys
 
+
 sys.path.append("C:/Users/ti/Desktop/web_manager/modules")
 import constants as const
-from costumer import Costumer, CostumerPipe 
+from costumer import Costumer, CostumerPipe, Deal, Organization
 
 
 
@@ -180,7 +181,7 @@ class Auvo_api():
             self.costumers.append(Costumer(costumer['description'], costumer['cpfCnpj'], costumer['creationDate'], phoneNumber, street, district, city, state, costumer['email']))
 
 
-    def insertCostumer(self, costumer:CostumerPipe):
+    def insertCostumer(self, costumer:Deal):
         """
             Will insert in the auvo's plataform
         
@@ -193,12 +194,12 @@ class Auvo_api():
 
         values = {
             "externalId": costumer.id,
-            "name": costumer.name,
-            "cpfCnpj": costumer.cpf_cnpj,
+            "name": costumer.title,
+            "cpfCnpj": costumer.organization.cnpj,
             "phoneNumber": [
-              costumer.phoneNumber
+              costumer.costumer.phone
             ],
-            "email": costumer.email,
+            "email": [costumer.email],
             "manager": "Ti",
             "managerJobPosition": "Developer",
             "note": "",
@@ -513,5 +514,7 @@ class Auvo(Auvo_api):
 if __name__ == "__main__":
     auvo = Auvo_api()
 
-    clayton = CostumerPipe("Clayton", "71980889023", "", "51999999999", "Rua São Lázaro", "Cidade Verde", "Eldorado do Sul", "RS", ["ti@reflexapersianas.com.br"], False, False, 9000)
-    auvo.insertCostumer(clayton)
+    clayton = Costumer("Clayton", "ti@reflexapersianas.com.br", "51999999999")
+    org = Organization("Empresa", "sao lazaro", 9999, "62988868000107")
+    deal = Deal(9999, "Persianas", 99, "Sao lazaro", "cidade verde", "Eldorado do sul", "Rio grande do sul", "ti@reflexapersianas.com.br", org,clayton)
+    auvo.insertCostumer(deal)

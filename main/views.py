@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from .forms import CreateForm
 
@@ -8,32 +8,31 @@ sys.path.append("C:/Users/ti/Desktop/web_manager/modules")
 
 from pipedrive.pipedrive import Pipedrive 
 from auvo.auvo import Auvo_api 
+from sysop.sysop import Sysop
 
 inst = Pipedrive()
-inst.createCostumers(inst.getCostumers())
+inst.createDeals(inst.getDeals())
 
 auvo = Auvo_api()
 
-
+#sysop = Sysop()
 # Create your views here.
 
 def index(response):
     return render(response, "main/base.html", {})
 
 def client(response):
-    return render(response, "main/clients.html", {'costumers':inst.costumers})
+    return render(response, "main/clients.html", {'deals':inst.deals})
 
 def auvoPage(response, id):
-    form = CreateForm(response.POST)
     if response.method == "POST":
+        for deal in inst.deals:
+            if deal.id == id:
+                print(auvo.insertCostumer(deal))
+                print("redirect!!!!")
+                return redirect("/client/sysop/"+str(id))
 
-        for costumer in inst.costumers:
-            if costumer.id == id:
-                print("is valid!")
-                auvo.insertCostumer(costumer)
-                sysopPage(response, id)
-
-    return render(response, "main/auvo.html", {'costumers':inst.costumers, 'id':id})
+    return render(response, "main/auvo.html", {'deals':inst.deals, 'id':id})
 
 def sysopPage(response, id):
 
@@ -41,9 +40,10 @@ def sysopPage(response, id):
         for costumer in inst.costumers:
             if costumer.id == id:
                 print("is valid!")
-                auvo.insertCostumer(costumer)
+                #print(sysop.insertCostumer(costumer))
+                return redirect("/")
 
-    return render(response, "main/auvo.html", {'costumers':inst.costumers, 'id':id})
+    return render(response, "main/sysop.html", {'deals':inst.deals, 'id':id})
 
 def tracking(response):
     return render(response, "main/tracking.html", {})

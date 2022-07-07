@@ -2,16 +2,16 @@
 import sys
 import requests
 
-
 sys.path.append("C:/Users/ti/Desktop/web_manager/modules")
 import constants as const
 from auvo.auvo import Auvo_api
 from sysop.sysop import Sysop
-from costumer import Costumer, CostumerPipe
+from costumer import Costumer, CostumerPipe, Deal, Organization
 
 class Pipedrive:
     def __init__(self):
         self.costumers = []
+        self.deals = []
 
     def getCostumers(self):
         """
@@ -66,3 +66,64 @@ class Pipedrive:
         for i in self.costumers:
             print(i)
 
+
+    def getDeals(self):
+        """
+            Will request the deals from the pipedrive
+        """
+
+        response = requests.get('https://reflexapersianas.pipedrive.com/api/v1/deals:(id,person_id,org_id,title,7a80f766077bc69dc36d870dc68ee41007fd28b8_street_number,7a80f766077bc69dc36d870dc68ee41007fd28b8_route,7a80f766077bc69dc36d870dc68ee41007fd28b8_sublocality,7a80f766077bc69dc36d870dc68ee41007fd28b8_admin_area_level_1,7a80f766077bc69dc36d870dc68ee41007fd28b8_admin_area_level_2,cc_email)?sort=add_time DESC&status=won&api_token='+const.PIPE_TOKEN)
+        response = response.json()
+        response = response['data']
+
+        return response
+
+
+    def getOrganization(self, id):
+        """
+            Will request the information of an organization
+        """
+
+        response = requests.get(f'https://reflexapersianas.pipedrive.com/api/v1/organizations/{id}?api_token='+const.PIPE_TOKEN)
+        response = response.json()
+        response = response['data']
+
+        return response
+
+
+    def getCostumer(self, id):
+        """
+            Will request the information of a single costumer
+        """
+
+        response = requests.get(f'https://reflexapersianas.pipedrive.com/api/v1/persons/{id}?api_token='+const.PIPE_TOKEN)
+        response = response.json()
+        response = response['data']
+
+        return response
+
+
+    def createDeals(self, request):
+        """
+            Will create the deal
+        """
+        for response in request:
+            person = response['person_id']
+            company = response['org_id']
+
+            costumer = Costumer(person['value'], person['name'], person['email'][0]['value'], person['phone'][0]['value'])
+
+            organization = Organization(company['name'], company['address'], company['value'], '') if company is not None else None
+
+            self.deals.append(Deal(response['id'], response['title'], response['7a80f766077bc69dc36d870dc68ee41007fd28b8_street_number'],response['7a80f766077bc69dc36d870dc68ee41007fd28b8_route'], response['7a80f766077bc69dc36d870dc68ee41007fd28b8_sublocality'], response['7a80f766077bc69dc36d870dc68ee41007fd28b8_admin_area_level_1'], response['7a80f766077bc69dc36d870dc68ee41007fd28b8_admin_area_level_2'], response['cc_email'], organization, costumer))
+
+
+if __name__ == "__main__":
+    inst = Pipedrive()
+    #response = inst.getDeals()
+    #for i in response:
+    #    inst.createDeal(i)
+    #    print(i)
+
+    #inst.getOrganization(7)
+    inst.getCostumer(4180)

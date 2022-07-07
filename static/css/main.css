@@ -1,101 +1,150 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
 
+.costumer h2{
+    position: relative;
+    height: 4vh;
+}
+
 .costumer{
+    font-size: 15px;
     margin: 20px auto;
-    width: 90%;
-    height: 15vh;
+    width: 80%;
+    height: 4vh;
+    padding: 5px;
     box-sizing: border-box;
-    padding: 10px;
-    background-color: #555;
-    color: #fff;
-    border-radius: 6px;
+    background-color: rgb(216, 214, 214);
+    color: rgb(0, 0, 0);
     display: block;
     text-decoration: none;
     text-align: left;
 
 }
 
-.costumer p{
-    margin: 4px;
+.costumer:hover{
+    background-color: #888;
 }
 
-.costumer h2{
-    margin: 10px 10px;
+.costumer h2, p{
+    display: inline;
+    margin: auto 10px;
 }
 
-.titulo{
-    margin: 10px 10px;
-    display: block;
-    color: #4723D9;
+
+
+#titulo{
+    margin: 0;
 }
 
 .main_div{
-    background-color: #F7F6FB; 
+    background-color: #FFF; 
     color: black; 
-    padding: 15px; 
-    min-height: 60vh; 
+    padding: 20px 15px;  
+    min-height: 70vh; 
     min-width: 50vw; 
     max-width: 80vw; 
     margin: 15vh auto;
     font-family: 'Nunito';
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .costumers_div{
+    margin-top: 40px;
     padding: 10px;
     min-height: 40vh;
     min-width: 50vw; 
     max-width: 80vw; 
     max-height: 60vh;
-    margin: 0 auto;
     display: flex;
+    justify-content: center;
 
 }
 
 .main_costumer{
-    flex: 1;
-    margin: 10px;
-    min-height: 40vh;
-    max-width: 40vw;
+    margin-right: 10px;
+    width: 25vw;
     max-height: 60vh;
-    background-color: #555;
-    color: #fff;
+    background-color: rgb(216, 214, 214);
+    color: rgb(0, 0, 0);
     box-sizing: border-box;
-    padding: 10px;
+    padding: 15px 10px;
+    border: solid 2px #555;
     border-radius: 6px;
+}
+
+.main_costumer p{
+    display: block;
+    margin: 25px 0;
+}
+
+.main_costumer h2{
+    margin-bottom: 40px;
 }
 
 .other_costumer{
-    flex: 2;
-    margin: 10px;
-    min-height: 40vh;
-    max-width: 35vw;
+    margin-left: 10px;
+    width: 25vw;
     max-height: 60vh;
-    background-color: #555;
-    color: #fff;
+    background-color: rgb(216, 214, 214);
+    color: rgb(0, 0, 0);
     box-sizing: border-box;
-    padding: 10px;
+    padding: 15px 10px;
+    border: solid 2px #555;
     border-radius: 6px;
 }
 
+.btn_add{
+    background-color: white;
+    margin-right: 5px;
+    width: 80px;
+    height: 40px;
+    border: solid 2px #23d98d;
+    border-radius: 6px;
+    font-family: 'Nunito';
+}
+
+.btn_add:hover{
+    color: #23d98d;
+}
+
+.btn_jmp {
+    background-color: white;
+    margin-left: 5px;
+    width: 80px;
+    height: 40px;
+    border: solid 2px #d93823;
+    border-radius: 6px;
+    font-family: 'Nunito';
+}
+
+.btn_jmp:hover{
+    color: #d93823;
+}
+
+.buttons {
+    position: relative;
+    top: 80px;
+    display: flex;
+    justify-content: center;
+}
 
 ::-webkit-scrollbar {
     width: 8px;
 }
   
-  /* Track */
-  ::-webkit-scrollbar-track {
-    background: #f1f1f1; 
-  }
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
      
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: #888; 
-  }
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
     
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: #555; 
-  } 
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+} 
   
   
   
@@ -103,13 +152,16 @@
   
   ::before,::after{box-sizing: border-box}
   
-  body{
+body{
     position: relative;
     margin: var(--header-height) 0 0 0;
     padding: 0 1rem;
     font-family: var(--body-font);
     font-size: var(--normal-font-size);
-    transition: .5s}
+    transition: .5s;
+    background-color: var(--white-color);
+}
+    
   
   body a{
       text-decoration: none
@@ -119,19 +171,21 @@
     padding: 10px;
   }
 
-  .header{
-      width: 100%;
-      height: var(--header-height);
-      position: fixed;
-      top: 0;
-      left: 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 1rem;
-      background-color: var(--white-color);
-      z-index: var(--z-fixed);
-      transition: .5s}
+.header{
+    width: 100%;
+    height: var(--header-height);
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    background-color: var(--white-color);
+    z-index: var(--z-fixed);    
+    transition: .5s;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
+}
       
   .header_toggle{
       color: var(--first-color);
