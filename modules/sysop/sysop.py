@@ -4,7 +4,7 @@ import os
 import sys
 
 sys.path.append("C:/Users/ti/Desktop/web_manager/modules")
-from costumer import Costumer, CostumerPipe
+from costumer import Costumer, CostumerPipe, Deal
 
 
 class Sysop():
@@ -49,6 +49,24 @@ class Sysop():
         response = response.commit()
         return response
 
+
+    def getLastOrderId(self):
+        """
+            Will get the last order number
+        """
+
+        query = ""
+
+    def createDeal(self, deal:Deal):
+        """
+            Will create a new deal in the sysop database
+        """
+
+        query = f"INSERT INTO t_os (n_doc, dt) VALUES ('{deal.title}', '08/07/2022 08:59:30');"
+        response = self.cursor.execute(query)
+        response = response.commit()
+        return response
+
     def existsInSysop(self, costumer:Costumer):
         """
             Will compare the given costumer with all the costumers 
@@ -70,10 +88,9 @@ class Sysop():
 
         return result
 
+
 if __name__ == "__main__":
     inst = Sysop()
-    clayton = CostumerPipe("Clayton", "71980889023", "01-07-2022", "51999999999", "RuaSãoLázaro", "CidadeVerde", "EldoradodoSul", "RS", ["ti"], False, False, 9000)
 
-    request = inst.getCostumers()
-    inst.insertCostumer(clayton)
-    request = inst.getCostumers()
+    deal = Deal(23, "TESTE DE NEGOCIO", 3, "", "", "", "", "")
+    inst.createDeal(deal)

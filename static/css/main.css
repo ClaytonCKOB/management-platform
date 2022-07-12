@@ -1,44 +1,56 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
 
+.header_content{
+    background-color: #00b2ad;
+    padding: 15px;
+    margin-bottom: 50px;
+    color: #FFF;
+}
+
+.header_content h1{
+    font-size: 1.8rem;
+    margin: 0;
+    padding: 0;
+}
+
 .costumer h2{
     position: relative;
     height: 4vh;
 }
 
 .costumer{
-    font-size: 15px;
-    margin: 20px auto;
-    width: 80%;
+    font-size: 14px;
+    margin: 15px auto;
+    width: 70%;
     height: 4vh;
     padding: 5px;
     box-sizing: border-box;
-    background-color: rgb(216, 214, 214);
+    background-color: #fff;
     color: rgb(0, 0, 0);
     display: block;
     text-decoration: none;
     text-align: left;
-
+    border-left: solid 5px #00b2ad;
+    border-top: solid 1px #555;
+    border-right: solid 1px #555;
+    border-bottom: solid 1px #555;
 }
 
 .costumer:hover{
-    background-color: #888;
+    border-left: solid 5px #9ae0df;
 }
 
 .costumer h2, p{
     display: inline;
     margin: auto 10px;
+    
 }
 
-
-
-#titulo{
-    margin: 0;
-}
 
 .main_div{
     background-color: #FFF; 
     color: black; 
-    padding: 20px 15px;  
+    padding: 0;  
     min-height: 70vh; 
     min-width: 50vw; 
     max-width: 80vw; 
@@ -60,71 +72,96 @@
 }
 
 .main_costumer{
-    margin-right: 10px;
-    width: 25vw;
+    width: 30vw;
     max-height: 60vh;
-    background-color: rgb(216, 214, 214);
+    background-color: #FFF;
     color: rgb(0, 0, 0);
     box-sizing: border-box;
     padding: 15px 10px;
-    border: solid 2px #555;
-    border-radius: 6px;
-}
+    box-shadow: 0 4px 4px 2px rgba(0, 0, 0, 0.2);
 
-.main_costumer p{
-    display: block;
-    margin: 25px 0;
 }
 
 .main_costumer h2{
-    margin-bottom: 40px;
+    margin: 15px auto 30px auto;
+    text-align: center;
+    font-size: 1.3rem;
 }
 
-.other_costumer{
-    margin-left: 10px;
-    width: 25vw;
-    max-height: 60vh;
-    background-color: rgb(216, 214, 214);
-    color: rgb(0, 0, 0);
-    box-sizing: border-box;
-    padding: 15px 10px;
-    border: solid 2px #555;
-    border-radius: 6px;
+.similars{
+    width: 30vw;
+    padding: 10px;
+    margin-left: 20px;
+}
+
+.similars a{
+    padding: 10px;
+    border-radius: 4px;
+    background-color: #f1f1f1;
+    text-decoration: none;
+    color: #555;
+}
+
+.similar_link{
+    display: inline-block;
+    margin-bottom: 20px;
+    width: 90%;
+    height: 3vh;
+}
+
+
+.similar_name{
+    display: inline;
+    font-weight: bold;
+    text-align: left;
+}
+
+.similar_address{
+    display: inline;
+}
+
+.block_info{
+    margin-bottom: 18px;
+}
+
+.block_info_title{
+    display: block;
+}
+
+.block_info_data{
+    display: block;
 }
 
 .btn_add{
-    background-color: white;
+    background-color: #23d98d;
     margin-right: 5px;
     width: 80px;
     height: 40px;
-    border: solid 2px #23d98d;
-    border-radius: 6px;
     font-family: 'Nunito';
+    border: 0;
+    color: #FFF;
+    font-weight: bold;
+
 }
 
-.btn_add:hover{
-    color: #23d98d;
-}
 
 .btn_jmp {
-    background-color: white;
-    margin-left: 5px;
-    width: 80px;
+    background-color: #d93823;
+    margin-right: 5px;
+    width:  80px;
     height: 40px;
-    border: solid 2px #d93823;
-    border-radius: 6px;
     font-family: 'Nunito';
+    border: 0;
+    color: #FFF;
+    font-weight: bold;
+
 }
 
-.btn_jmp:hover{
-    color: #d93823;
-}
 
 .buttons {
-    position: relative;
-    top: 80px;
-    display: flex;
-    justify-content: center;
+    position: absolute;
+    left: 78%;
+    top: 90%;
 }
 
 ::-webkit-scrollbar {
@@ -148,7 +185,7 @@
   
   
   
-  :root{--header-height: 3rem;--nav-width: 68px;--first-color: #4723D9;--first-color-light: #AFA5D9;--white-color: #F7F6FB;--body-font: 'Nunito', sans-serif;--normal-font-size: 1rem;--z-fixed: 100}*,
+  :root{--header-height: 3rem;--nav-width: 68px;--first-color: #00b2ad;--first-color-light: #AFA5D9;--white-color: #F7F6FB;--body-font: 'Nunito', sans-serif;--normal-font-size: 1rem;--z-fixed: 100}*,
   
   ::before,::after{box-sizing: border-box}
   
@@ -206,7 +243,7 @@ body{
   
   .nav_logo-name{color: var(--white-color);font-weight: 700}
   
-  .nav_link{position: relative;color: var(--first-color-light);margin-bottom: 1.5rem;transition: .3s}
+  .nav_link{position: relative;color: var(--white-color);margin-bottom: 1.5rem;transition: .3s}
   
   .nav_link:hover{color: var(--white-color)}
   

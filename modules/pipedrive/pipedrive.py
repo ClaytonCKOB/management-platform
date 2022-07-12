@@ -113,17 +113,17 @@ class Pipedrive:
 
             costumer = Costumer(person['value'], person['name'], person['email'][0]['value'], person['phone'][0]['value'])
 
-            organization = Organization(company['name'], company['address'], company['value'], '') if company is not None else None
+            organization = Organization(company['value'], company['name'], company['address'], '') if company is not None else None
 
             self.deals.append(Deal(response['id'], response['title'], response['7a80f766077bc69dc36d870dc68ee41007fd28b8_street_number'],response['7a80f766077bc69dc36d870dc68ee41007fd28b8_route'], response['7a80f766077bc69dc36d870dc68ee41007fd28b8_sublocality'], response['7a80f766077bc69dc36d870dc68ee41007fd28b8_admin_area_level_1'], response['7a80f766077bc69dc36d870dc68ee41007fd28b8_admin_area_level_2'], response['cc_email'], organization, costumer))
 
 
 if __name__ == "__main__":
     inst = Pipedrive()
-    #response = inst.getDeals()
+    response = inst.getDeals()
     #for i in response:
     #    inst.createDeal(i)
     #    print(i)
 
     #inst.getOrganization(7)
-    inst.getCostumer(4180)
+    #inst.getCostumer(4180)

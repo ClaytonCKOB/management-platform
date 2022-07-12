@@ -1,33 +1,58 @@
 {% extends "main/base.html" %}
 
 {% block title %}
-Sysop
+{% for deal in deals %}
+    {% if deal.id == id %}
+        {{deal.title}}
+    {% endif %}
+{% endfor %}
 {% endblock %}
 
 {% block content %}
-<h1 id="titulo">Integração do cliente com o Sysop</h1>
+<div class="header_content"><h1>Integração do negócio com o Sysop</h1></div>
+
 <div class="costumers_div">
-    {% for costumer in costumers%}
-        {% if costumer.id == id %}
+    {% for deal in deals%}
+        {% if deal.id == id %}
             <div class="main_costumer">
-                <h2>{{costumer.name}}</h2>
-                <p><b>Telefone:</b> {{costumer.phoneNumber}}</p>
-                <p><b>Email:</b> {{costumer.email.0}}</p>
-                <p><b>Endereço:</b> {{costumer.street}} - {{costumer.district}} - {{costumer.state}}</p>
+                <h2>{{deal.title}}</h2> 
+                
+                <div class="block_info">
+                    <p class="block_info_title"><b>Telefone:</b></p>
+                    <p class="block_info_data">{{deal.costumer.phone}}</p>
+                </div>
+
+                <div class="block_info">
+                    <p class="block_info_title"><b>Email:</b></p>
+                    <p class="block_info_data">{{deal.email}}</p>
+                </div>
+
+                <div class="block_info">
+                    <p class="block_info_title"><b>Endereço:</b></p>
+                    {% if deal.state is not None%}
+                        <p class="block_info_data">{{deal.street}} - {{deal.district}} - {{deal.city}} - {{deal.state}}</p>
+                    {% endif %}
+                    </div>
+
+                <div class="block_info">
+                    <p class="block_info_title"><b>Empresa:</b></p>
+                    <p class="block_info_data">{{deal.organization.name}}</p>
+                </div>
+
             </div>
         {% endif %}
     {% endfor %}
     
-    <div class="other_costumer"><p>Este é um cliente</p></div>
+    <!-- <div class="other_costumer"><p>Este é um cliente</p></div> -->
 </div>
 <form method="post" action="#">
     {% csrf_token %}
     <div class="buttons">
+        <button action="/clients/sysop/{{id}}" class="btn_jmp">
+            Pular
+        </button>
         <button type="submit" class="btn_add">
             Adicionar
-        </button>
-        <button type="submit" class="btn_jmp">
-            Pular
         </button>
     </div>
 </form>

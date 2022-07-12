@@ -1,38 +1,78 @@
 {% extends "main/base.html" %}
 
 {% block title %}
-id
+{% for deal in deals %}
+    {% if deal.id == id %}
+        {{deal.title}}
+    {% endif %}
+{% endfor %}
 {% endblock %}
 
 {% block content %}
-<h1 id="titulo">Integração do negócio com a Auvo</h1>
+<div class="header_content"><h1>Integração do negócio com a Auvo</h1></div>
+
 <div class="costumers_div">
     {% for deal in deals%}
         {% if deal.id == id %}
             <div class="main_costumer">
-                <h2>{{deal.title}}</h2>
-                <p><b>Telefone:</b> {{deal.cosutmer.phone}}</p>
-                <p><b>Email:</b> {{deal.email}}</p>
-                <p><b>Endereço:</b> {{deal.street}} - {{deal.district}} - {{deal.city}} - {{deal.state}}</p>
-                <p><b>Empresa:</b> {{deal.organization.name}}</p>
+                <h2>{{deal.title}}</h2> 
+                
+                <div class="block_info">
+                    <p class="block_info_title"><b>Telefone:</b></p>
+                    <p class="block_info_data">{{deal.costumer.phone}}</p>
+                </div>
+
+                <div class="block_info">
+                    <p class="block_info_title"><b>Email:</b></p>
+                    <p class="block_info_data">{{deal.email}}</p>
+                </div>
+
+                <div class="block_info">
+                    <p class="block_info_title"><b>Endereço:</b></p>
+                    {% if deal.state is not None%}
+                        <p class="block_info_data">{{deal.street}} - {{deal.district}} - {{deal.city}} - {{deal.state}}</p>
+                    {% endif %}
+                    </div>
+
+                <div class="block_info">
+                    <p class="block_info_title"><b>Empresa:</b></p>
+                    <p class="block_info_data">{{deal.organization.name}}</p>
+                </div>
+
             </div>
         {% endif %}
     {% endfor %}
-    
+    {% if similar %}
+        <div class="similars">
+            <h2>Cadastros semelhantes</h2>
+            {% for register in similar%}
+                <a href="#">
+                    <div class="similar_link">
+                        <div class="similar_block">
+                            <div class="similar_name">
+                                <p>{{register.0.name}}</p>
+                            </div>
+                            <div class="similar_address">
+                                <p>{{register.0.street}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    {% endif %}
     <!-- <div class="other_costumer"><p>Este é um cliente</p></div> -->
 </div>
 <form method="post" action="#">
     {% csrf_token %}
     <div class="buttons">
+        <button action="/clients/sysop/{{id}}" class="btn_jmp">
+            Pular
+        </button>
         <button type="submit" class="btn_add">
             Adicionar
         </button>
-        <button type="submit" class="btn_jmp">
-            Pular
-        </button>
     </div>
 </form>
-
-
 
 {% endblock %}

@@ -2,6 +2,55 @@
 
 from dataclasses import dataclass
 from unidecode import unidecode
+from fuzzywuzzy import fuzz
+
+@dataclass
+class Costumer():
+    id: int
+    name: str
+    email: str
+    phone: str
+
+@dataclass
+class Organization():
+    id: int
+    name: str
+    value: int
+    address: str
+    cnpj: str = None
+    street_number: int = None
+    street: str = None
+    district: str = None
+    city: str = None
+    state: str = None
+     
+    
+
+@dataclass
+class Deal():
+    id: int
+    title: str
+    street_number: int
+    street: str
+    district: str
+    city: str
+    state: str
+    email: str
+    organization: Organization = None
+    costumer: Costumer = None
+
+    def __post_init__(self):
+        index = 0
+        length = len(self.title)
+
+        # Removing the code of the deal
+        if '(' in self.title:
+            for i in range(length):
+                if self.title[i] == ')':
+                    index = i
+            self.title = self.title[index+1:length] if length != index + 1 else self.title
+
+
 
 @dataclass
 class CostumerPipe():
@@ -14,15 +63,12 @@ class CostumerPipe():
     city: str
     state: str
     email: list
-    auvo: bool
-    sysop: bool
-    id: int
     
 
     def __str__(self):
         return f'{self.name} - {self.cpf_cnpj} - {self.street} - {self.district} - {self.city} - {self.state}'
 
-    def compareCostumers(self, costumer2):
+    def compareCostumers(self, costumer2:Deal):
         """
             Will compare two costumers and will return the percent of similarity
         
@@ -30,19 +76,32 @@ class CostumerPipe():
             costumer2 -> Costumer 
 
         """
+        per_cpf = -1
+        per_name = -1
+        per_address = -1
 
-        # Compare cpf_cnpj
-        per_cpf = self.compareCpfCnpj(costumer2.cpf_cnpj)
+        if costumer2.organization is not None and costumer2.organization.cnpj is not None and self.cpf_cnpj is not None:
+            # Compare cpf_cnpj
+            per_cpf = self.compareCpfCnpj(costumer2.organization.cnpj) if self.cpf_cnpj != '' and costumer2.organization.cnpj != '' else -1
 
         # Compare name
-        per_name = self.compareText(self.name, costumer2.name)
+        per_name = self.compareText(self.name, costumer2.title) if self.name != '' and costumer2.title != '' else -1
 
         # Compare address
         per_address = self.compareAddress(costumer2.street, costumer2.city, costumer2.district, costumer2.state)
         
+        values = [per_cpf, per_name, per_address]
+        total = 0
+        den = 0
+        for i in values:
+            if i != -1:
+                total += i
+                den += 1
+
+        response = total/den if den != 0 else -1
 
 
-        return (per_cpf + per_name + per_address)/3
+        return response
 
     def compareCpfCnpj(self, cpf2):
         """
@@ -64,43 +123,9 @@ class CostumerPipe():
         text1 = unidecode(text1.upper().replace("-", ""). replace("  ", " ")).split(" ")
         text2 = unidecode(text2.upper().replace("-", ""). replace("  ", " ")).split(" ")
 
-        big_name = text1 if len(text1) > len(text2) else text2
-        small_name = text1 if len(text1) < len(text2) else text2
+        return fuzz.ratio(text1, text2)
 
-        contains_word = 0
-        contains_letter = 0
-
-
-        for word in small_name:
-            if word in big_name:
-                contains_word += 1
-
-            else:
-                # If the word is not in the big name verify if the letters are similary
-                for w in big_name:
-                    if len(w) != len(word):
-                        small_word = word if len(word) < len(w) else w
-                        big_word = word if len(word) > len(w) else w
-                    else:
-                        small_word = w
-                        big_word = word
-
-                    # The difference between the letter must smaller or equal to two
-                    if len(big_word) - len(small_word) <= 2:
-                        
-                        for letter in small_word:
-                            if letter in big_word:
-                                contains_letter += 1
-
-                        if len(small_word) != 0:
-                            if contains_letter/len(small_word) >= 0.9:
-                                contains_letter = 0
-                                contains_word += 1
-
-
-        return contains_word/len(small_name)
         
-
     def compareAddress(self, street2, city2, district2, state2):
         """
             Will compare the street, city and state
@@ -115,49 +140,6 @@ class CostumerPipe():
 
 
 
-@dataclass
-class Costumer():
-    id: int
-    name: str
-    email: str
-    phone: str
 
-@dataclass
-class Organization():
-    id: int
-    name: str
-    value: int
-    cnpj: str
-    street_number: int = None
-    street: str = None
-    district: str = None
-    city: str = None
-    state: str = None
-    address: str = None
-    
-
-@dataclass
-class Deal():
-    id: int
-    title: str
-    street_number: int
-    street: str
-    district: str
-    city: str
-    state: str
-    email: str
-    organization: Organization = None
-    costumer: CostumerPipe = None
-
-    def __post_init__(self):
-        index = 0
-        length = len(self.title)
-
-        # Removing the code of the deal
-        if '(' in self.title:
-            for i in range(length):
-                if self.title[i] == ')':
-                    index = i
-            self.title = self.title[index+1:length] if length != index + 1 else self.title
-
-
+#inst = CostumerPipe("Negócio Ana Paula Kloeckner", "", "", "", "", "", "", "", "", False, False, 3)
+#print(inst.compareText("Av. Paulo Faccini, 939 - Macedo, Guarulhos - SP, 07111-000", "Avenida Paulo Faccini - Macedo - São Paulo - Guarulhos"))

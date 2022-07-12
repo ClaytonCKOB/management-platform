@@ -2,21 +2,21 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from .forms import CreateForm
 
-import sys
-sys.path.append("C:/Users/ti/Desktop/web_manager/modules")
+# import sys
+# sys.path.append("C:/Users/ti/Desktop/web_manager/modules")
 #from packing.src.classes.relatorio import criarRelatorio
 
-from pipedrive.pipedrive import Pipedrive 
-from auvo.auvo import Auvo_api 
-from sysop.sysop import Sysop
+from modules.pipedrive.pipedrive import Pipedrive 
+from modules.auvo.auvo import Auvo_api 
+from modules.sysop.sysop import Sysop
 
 inst = Pipedrive()
 inst.createDeals(inst.getDeals())
 
 auvo = Auvo_api()
+auvo.createCostumers(auvo.getCostumers())
 
-#sysop = Sysop()
-# Create your views here.
+sysop = Sysop()
 
 def index(response):
     return render(response, "main/base.html", {})
@@ -25,22 +25,26 @@ def client(response):
     return render(response, "main/clients.html", {'deals':inst.deals})
 
 def auvoPage(response, id):
+    similar = []
+    for deal in inst.deals:
+            if deal.id == id:
+                similar = auvo.existsInAuvo(deal)
+
     if response.method == "POST":
         for deal in inst.deals:
             if deal.id == id:
-                print(auvo.insertCostumer(deal))
-                print("redirect!!!!")
+                auvo.existsInAuvo(deal)
+                #print(auvo.insertCostumer(deal))
                 return redirect("/client/sysop/"+str(id))
-
-    return render(response, "main/auvo.html", {'deals':inst.deals, 'id':id})
+    print(similar)
+    return render(response, "main/auvo.html", {'deals':inst.deals, 'id':id, 'similar':similar})
 
 def sysopPage(response, id):
 
     if response.method == "POST":
-        for costumer in inst.costumers:
-            if costumer.id == id:
-                print("is valid!")
-                #print(sysop.insertCostumer(costumer))
+         for deal in inst.deals:
+            if deal.id == id:
+                print(sysop.createDeal(deal))
                 return redirect("/")
 
     return render(response, "main/sysop.html", {'deals':inst.deals, 'id':id})

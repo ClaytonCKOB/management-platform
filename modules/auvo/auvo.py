@@ -153,7 +153,7 @@ class Auvo_api():
             Will request the list of costumers  
         """
 
-        request = requests.get(f'https://api.auvo.com.br/v2/customers/?paramFilter={""}&page={1}&pageSize={400}&order={"asc"}&selectfields={""}', headers=self.headers)
+        request = requests.get(f'https://api.auvo.com.br/v2/customers/?paramFilter={""}&page={1}&pageSize={400}&order={"desc"}&selectfields={""}', headers=self.headers)
         request = request.json()
         request = json.loads(json.dumps(dict(request['result']), indent=5))
         request = request['entityList']
@@ -178,7 +178,7 @@ class Auvo_api():
             state = state[1]
             phoneNumber = costumer['phoneNumber'][0] if len(costumer['phoneNumber']) >= 1 else ""
 
-            self.costumers.append(Costumer(costumer['description'], costumer['cpfCnpj'], costumer['creationDate'], phoneNumber, street, district, city, state, costumer['email']))
+            self.costumers.append(CostumerPipe(costumer['description'], costumer['cpfCnpj'], costumer['creationDate'], phoneNumber, street, district, city, state, costumer['email']))
 
 
     def insertCostumer(self, costumer:Deal):
@@ -225,7 +225,8 @@ class Auvo_api():
         response = requests.post('https://api.auvo.com.br/v2/customers/', json=json.loads(json.dumps(values)), headers=self.headers)
         return response
 
-    def existsInAuvo(self, costumer:CostumerPipe):
+
+    def existsInAuvo(self, costumer:Costumer):
         """
             Will compare the given costumer with all the costumers 
         """
@@ -233,11 +234,23 @@ class Auvo_api():
         
         for i in range(len(self.costumers)):
             response = self.costumers[i].compareCostumers(costumer)
-            if response >= 0.9:
-                result.append(self.costumers[i])
+            if response >= 65:
+                result.append([self.costumers[i], response])
+
+
                 
         if result != []:
             print("FOUND!")
+            changed = True
+            while changed:
+                changed = False
+                for i in range(len(result)):
+                    if i != len(result) - 1:
+                        if result[i][1] < result[i+1][1]:
+                            result[i+1][1], result[i][1] = result[i][1], result[i+1][1]
+                            changed = True
+
+            print(result)
         else:
             print("NOT FOUND!")
 
@@ -514,7 +527,11 @@ class Auvo(Auvo_api):
 if __name__ == "__main__":
     auvo = Auvo_api()
 
-    clayton = Costumer("Clayton", "ti@reflexapersianas.com.br", "51999999999")
-    org = Organization("Empresa", "sao lazaro", 9999, "62988868000107")
-    deal = Deal(9999, "Persianas", 99, "Sao lazaro", "cidade verde", "Eldorado do sul", "Rio grande do sul", "ti@reflexapersianas.com.br", org,clayton)
+    df = auvo.getCostumers()
+
+    #clayton = Costumer("Clayton", "ti@reflexapersianas.com.br", "51999999999")
+    #org = Organization("Empresa", "sao lazaro", 9999, "62988868000107")
+    deal = Deal(9999, "RDC Corretora de Seguros LTDA", 99, "Avenida Paulo Faccini", "Macedo", "Guarulhos", "São Paulo", "ti@reflexapersianas.com.br")
+    auvo.createCostumers(df)
+    auvo.existsInAuvo(deal)
     auvo.insertCostumer(deal)
