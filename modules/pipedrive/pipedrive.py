@@ -78,6 +78,16 @@ class Pipedrive:
 
         return response
 
+    def getDeal(self, id):
+        """
+            Will request a deal from the pipedrive
+        """
+
+        response = requests.get(f'https://reflexapersianas-sandbox.pipedrive.com/api/v1/deals/{id}?api_token='+const.PIPE_TOKEN)
+        response = response.json()
+        response = response['data']
+
+        return response
 
     def getOrganization(self, id):
         """
@@ -118,9 +128,16 @@ class Pipedrive:
             self.deals.append(Deal(response['id'], response['title'], response['7a80f766077bc69dc36d870dc68ee41007fd28b8_street_number'],response['7a80f766077bc69dc36d870dc68ee41007fd28b8_route'], response['7a80f766077bc69dc36d870dc68ee41007fd28b8_sublocality'], response['7a80f766077bc69dc36d870dc68ee41007fd28b8_admin_area_level_1'], response['7a80f766077bc69dc36d870dc68ee41007fd28b8_admin_area_level_2'], response['cc_email'], organization, costumer))
 
 
+    def updateDeal(self, id, order, title):
+        """
+            Will update the name of the deal
+        """
+        response = requests.put(f'https://reflexapersianas.pipedrive.com/api/v1/deals/{id}?api_token='+const.PIPE_TOKEN, data={'title': "("+str(order)+") "+title})
+        return response
+
 if __name__ == "__main__":
     inst = Pipedrive()
-    response = inst.getDeals()
+    inst.updateDeal(1, 9000, "ClearSale")
     #for i in response:
     #    inst.createDeal(i)
     #    print(i)

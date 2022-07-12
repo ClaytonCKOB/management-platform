@@ -65,6 +65,10 @@ class Sysop():
         query = f"INSERT INTO t_os (n_doc, dt) VALUES ('{deal.title}', '08/07/2022 08:59:30');"
         response = self.cursor.execute(query)
         response = response.commit()
+
+        query = f"SELECT MAX(codos) FROM t_os;"
+        response = self.cursor.execute(query).fetchval()
+
         return response
 
     def existsInSysop(self, costumer:Costumer):
