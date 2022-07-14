@@ -33,8 +33,7 @@ def auvoPage(response, id):
     if response.method == "POST":
         for deal in inst.deals:
             if deal.id == id:
-                auvo.existsInAuvo(deal)
-                #print(auvo.insertCostumer(deal))
+                auvo.insertCostumer(deal)
                 return redirect("/client/sysop/"+str(id))
     print(similar)
     return render(response, "main/auvo.html", {'deals':inst.deals, 'id':id, 'similar':similar})
@@ -44,7 +43,8 @@ def sysopPage(response, id):
     if response.method == "POST":
          for deal in inst.deals:
             if deal.id == id:
-                print(sysop.createDeal(deal))
+                order = sysop.createDeal(deal)
+                inst.updateDeal(deal.id, order, deal.title)
                 return redirect("/")
 
     return render(response, "main/sysop.html", {'deals':inst.deals, 'id':id})

@@ -54,6 +54,7 @@ class Deal():
 
 @dataclass
 class CostumerPipe():
+    id: int
     name: str
     cpf_cnpj: str
     creationDate: str
@@ -87,8 +88,9 @@ class CostumerPipe():
         # Compare name
         per_name = self.compareText(self.name, costumer2.title) if self.name != '' and costumer2.title != '' else -1
 
-        # Compare address
-        per_address = self.compareAddress(costumer2.street, costumer2.city, costumer2.district, costumer2.state)
+        if costumer2.street is not None and costumer2 is not None and self.street is not None and self.state is not None:
+            # Compare address
+            per_address = self.compareAddress(costumer2.street, costumer2.city, costumer2.district, costumer2.state)
         
         values = [per_cpf, per_name, per_address]
         total = 0

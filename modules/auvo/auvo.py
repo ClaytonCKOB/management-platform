@@ -178,7 +178,7 @@ class Auvo_api():
             state = state[1]
             phoneNumber = costumer['phoneNumber'][0] if len(costumer['phoneNumber']) >= 1 else ""
 
-            self.costumers.append(CostumerPipe(costumer['description'], costumer['cpfCnpj'], costumer['creationDate'], phoneNumber, street, district, city, state, costumer['email']))
+            self.costumers.append(CostumerPipe(costumer['id'],costumer['description'], costumer['cpfCnpj'], costumer['creationDate'], phoneNumber, street, district, city, state, costumer['email']))
 
 
     def insertCostumer(self, costumer:Deal):
@@ -190,6 +190,8 @@ class Auvo_api():
         """
         today = date.today()
         now = datetime.now()
+
+        address = costumer.street + " - " + costumer.street_number + costumer.district + " - " + costumer.city + " - " + costumer.state if costumer.street is not None and costumer.state is not None else ""
 
 
         values = {
@@ -203,7 +205,7 @@ class Auvo_api():
             "manager": "Ti",
             "managerJobPosition": "Developer",
             "note": "",
-            "address": costumer.street + " - " + costumer.district + " - " + costumer.city + " - " + costumer.state,
+            "address": address,
             "latitude": 0,
             "longitude": 0,
             "maximumVisitTime": 1,
@@ -212,7 +214,7 @@ class Auvo_api():
             "managerTeamsId": [],
             "managersId": [],
             "segmentId": 0,
-            "active": False,
+            "active": True,
             "adressComplement": "",
             "creationDate": f"{today.year}-{today.month}-{today.day}T{now.hour}:{now.minute}:{now.second}",
             "contacts": [],
@@ -240,7 +242,6 @@ class Auvo_api():
 
                 
         if result != []:
-            print("FOUND!")
             changed = True
             while changed:
                 changed = False
@@ -249,10 +250,6 @@ class Auvo_api():
                         if result[i][1] < result[i+1][1]:
                             result[i+1][1], result[i][1] = result[i][1], result[i+1][1]
                             changed = True
-
-            print(result)
-        else:
-            print("NOT FOUND!")
 
         return result
 

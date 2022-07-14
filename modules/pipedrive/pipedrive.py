@@ -137,6 +137,7 @@ class Pipedrive:
 
 if __name__ == "__main__":
     inst = Pipedrive()
+    inst.getDeals()
     inst.updateDeal(1, 9000, "ClearSale")
     #for i in response:
     #    inst.createDeal(i)

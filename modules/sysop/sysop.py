@@ -50,13 +50,6 @@ class Sysop():
         return response
 
 
-    def getLastOrderId(self):
-        """
-            Will get the last order number
-        """
-
-        query = ""
-
     def createDeal(self, deal:Deal):
         """
             Will create a new deal in the sysop database
