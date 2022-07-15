@@ -1,6 +1,10 @@
 from datetime import date
 import os
 import json
+import sys
+
+sys.path.append("C:/Users/ti/Desktop/web_manager/modules")
+import constants as const
 
 #Arquivo armazenará funções gerais
 
@@ -31,20 +35,14 @@ def selectPath(pedido) -> str:
     with open('C:/Users/ti/Desktop/web_manager/modules/packing/src/config.json') as f:
         config = json.load(f)
 
-    rootPath = config['path']
-
     #Criação do caminho
-    path = rootPath + str(ano) + "/" 
-
+    path = str(const.BASE_DIR) + "/files/"
+    print(path)
     #Verificação da existência do caminho 
     if not os.path.exists(path):
         #Caso não exista, criá-lo
         os.mkdir(path, 0o666)
-    path = path + mes + "/"
-
-    if not os.path.exists(path):
-        #Caso não exista, criá-lo
-        os.mkdir(path, 0o666)
+   
 
     #Retornar o caminho
     return path + pedido + ".xlsx"

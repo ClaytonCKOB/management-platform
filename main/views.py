@@ -9,6 +9,7 @@ from .forms import CreateForm
 from modules.pipedrive.pipedrive import Pipedrive 
 from modules.auvo.auvo import Auvo_api 
 from modules.sysop.sysop import Sysop
+from modules.packing.src.classes.relatorio import Relatorio
 
 inst = Pipedrive()
 inst.createDeals(inst.getDeals())
@@ -17,6 +18,8 @@ auvo = Auvo_api()
 auvo.createCostumers(auvo.getCostumers())
 
 sysop = Sysop()
+
+packing_inst = Relatorio()
 
 def index(response):
     return render(response, "main/base.html", {})
@@ -53,12 +56,8 @@ def tracking(response):
     return render(response, "main/tracking.html", {})
 
 def packing(response):
-    form = CreateForm(response.POST)
     if response.method == "POST":
+        print(response.method)
+        packing_inst.criarRelatorio("260", "Embalagem")
 
-        if form.is_valid():
-            pass
-            #criarRelatorio("9009", "Embalagem")
-        else:
-            form = CreateForm()
-    return render(response, "main/packing.html", {'form':form})
+    return render(response, "main/packing.html")

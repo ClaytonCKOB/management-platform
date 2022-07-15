@@ -1,7 +1,3 @@
-import sys
-sys.path.append("C:/Users/ti/Desktop/web_manager/modules")
-import constants as const
-
 from packing.src.classes.produto import *
 from packing.src.classes.connDatabase import *
 from packing.src.modules.calculation import *
@@ -246,6 +242,7 @@ class Relatorio():
                 i += 1
 
         #Ordenar lista de produtos pelo item
+        j = 0
         changed = True
         while changed:
             changed = False

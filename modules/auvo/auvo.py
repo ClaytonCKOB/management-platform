@@ -191,7 +191,7 @@ class Auvo_api():
         today = date.today()
         now = datetime.now()
 
-        address = costumer.street + " - " + costumer.street_number + costumer.district + " - " + costumer.city + " - " + costumer.state if costumer.street is not None and costumer.state is not None else ""
+        address = costumer.street + " - " + costumer.street_number + ", " + costumer.district + " - " + costumer.city + " - " + costumer.state if costumer.street is not None and costumer.state is not None else ""
 
 
         values = {

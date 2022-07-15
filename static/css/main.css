@@ -1,5 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
 
+form{
+    margin: 0;
+}
+
 .header_content{
     background-color: #00b2ad;
     padding: 15px;
@@ -46,6 +50,23 @@
     
 }
 
+.header_packing{
+    background-color: #FFF; 
+    color: black; 
+    padding: 0 10px;  
+    min-height: 5vh; 
+    min-width: 50vw; 
+    max-width: 80vw; 
+    margin: 12vh auto 0 auto;
+    font-family: 'Nunito';
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.packing_form{
+    position: absolute;
+    top: 1.5%;
+    margin: 0;
+}
 
 .main_div{
     background-color: #FFF; 
@@ -54,7 +75,7 @@
     min-height: 70vh; 
     min-width: 50vw; 
     max-width: 80vw; 
-    margin: 15vh auto;
+    margin: 3vh auto;
     font-family: 'Nunito';
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
