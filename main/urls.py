@@ -9,5 +9,6 @@ urlpatterns = [
     path("client/sysop/<int:id>", views.sysopPage, name="client"),
     path("tracking/", views.tracking, name="tracking"),
     path("embalagem/", views.packing, name="client"),
+    path("embalagem/<int:id>", views.packingView, name="client"),
     path("peso/", views.tracking, name="tracking"),
 ]

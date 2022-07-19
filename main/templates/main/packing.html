@@ -5,16 +5,41 @@
     <div class="packing_form">
         <form method="post" action="/embalagem/">
             {% csrf_token %}
-            <input type="text" placeholder="e.g. 9009">
-            <button type="submit" id="create_report">
+            <input type="text" placeholder="e.g. 9009" name="order">
+            <button type="submit" id="create_report" value="create" name="create">
                 <i class='bx bx-search'></i>
             </button>
-            <button type="submit" id="dowload_report">
+            <button type="submit" id="filter_report" value="filter" name="filter">
+                <i class='bx bx-filter-alt'></i>
+            </button>
+            <button type="submit" id="dowload_report" value="download" name="download">
                 <i class='bx bx-download'></i>
             </button>
         </form>
     </div>
 </div>
-<div class="main_div">
-</div>
+{% if order != False %}
+    <div class="report_field">
+        <table class="report_content">
+            <thead>
+                <tr>
+                    <td>Volume</td>
+                    <td>Tamanho da caixa</td>
+                    <td>Item</td>
+                    <td>Descrição</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in order.item_set.all%}
+                    <tr>
+                        <td>{{item.volume}}</td>
+                        <td>{{item.dimensao}}</td>
+                        <td>{{item.item}}</td>
+                        <td>{{item.nome}} {{item.largura}} x {{item.altura}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endif %}
 {% endblock %}

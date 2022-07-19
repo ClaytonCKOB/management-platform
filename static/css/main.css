@@ -63,9 +63,47 @@ form{
 }
 
 .packing_form{
-    position: absolute;
-    top: 1.5%;
+    position: relative;
+    top: 10px;
     margin: 0;
+}
+
+.report_field{
+    width: 30vw;
+    background-color: white;
+    margin: 30px auto;
+}
+
+.report_content{
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    min-width: 400px;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+}
+
+.report_content thead tr{
+    background-color: #009879;
+    color: #fff;
+    text-align: left;
+    font-weight: bold;
+}
+
+.report_content th, .report_content td{
+    padding: 12px 15px;
+}
+
+.report_content tbody tr{
+    border-bottom: 1px solid #ddd;
+}
+
+.report_content tbody tr:nth-of-type(even){
+    background-color: #f3f3f3;
+}
+
+.report_content tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
 }
 
 .main_div{

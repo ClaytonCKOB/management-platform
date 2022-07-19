@@ -37,7 +37,7 @@ def selectPath(pedido) -> str:
 
     #Criação do caminho
     path = str(const.BASE_DIR) + "/files/"
-    print(path)
+
     #Verificação da existência do caminho 
     if not os.path.exists(path):
         #Caso não exista, criá-lo

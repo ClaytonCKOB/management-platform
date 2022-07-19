@@ -1,0 +1,28 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+{% if order != False %}
+    <div class="report_field">
+        <table class="report_content">
+            <thead>
+                <tr>
+                    <td>Volume</td>
+                    <td>Tamanho da caixa</td>
+                    <td>Item</td>
+                    <td>Descrição</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in order.item_set.all%}
+                    <tr>
+                        <td>{{item.volume}}</td>
+                        <td>{{item.dimensao}}</td>
+                        <td>{{item.item}}</td>
+                        <td>{{item.nome}} | {{item.ambiente}} | {{item.largura}} x {{item.altura}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endif %}
+{% endblock %}

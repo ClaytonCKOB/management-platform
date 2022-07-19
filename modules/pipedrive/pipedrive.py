@@ -128,6 +128,22 @@ class Pipedrive:
             self.deals.append(Deal(response['id'], response['title'], response['7a80f766077bc69dc36d870dc68ee41007fd28b8_street_number'],response['7a80f766077bc69dc36d870dc68ee41007fd28b8_route'], response['7a80f766077bc69dc36d870dc68ee41007fd28b8_sublocality'], response['7a80f766077bc69dc36d870dc68ee41007fd28b8_admin_area_level_1'], response['7a80f766077bc69dc36d870dc68ee41007fd28b8_admin_area_level_2'], response['cc_email'], organization, costumer))
 
 
+    def createActivity(self, id):
+        """
+            Will create an activity in a deal of pipedrive
+        """
+        data = {
+            'deal_id': id,
+            'note': 'https://localhost/embalagem/260',
+            'subject': 'Relatório da expedição foi gerado.',
+            'done': 0,
+            'type': 'task'
+        }
+
+        response = requests.post(f'https://reflexapersianas.pipedrive.com/api/v1/activities?api_token='+const.PIPE_TOKEN, data=data)
+        return response
+        
+
     def updateDeal(self, id, order, title):
         """
             Will update the name of the deal
@@ -137,8 +153,7 @@ class Pipedrive:
 
 if __name__ == "__main__":
     inst = Pipedrive()
-    inst.getDeals()
-    inst.updateDeal(1, 9000, "ClearSale")
+    inst.createActivity()
     #for i in response:
     #    inst.createDeal(i)
     #    print(i)
