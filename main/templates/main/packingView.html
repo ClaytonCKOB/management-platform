@@ -1,28 +1,92 @@
-{% extends 'main/base.html' %}
+{% load static %}
 
 {% block content %}
-{% if order != False %}
-    <div class="report_field">
-        <table class="report_content">
-            <thead>
-                <tr>
-                    <td>Volume</td>
-                    <td>Tamanho da caixa</td>
-                    <td>Item</td>
-                    <td>Descrição</td>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in order.item_set.all%}
-                    <tr>
-                        <td>{{item.volume}}</td>
-                        <td>{{item.dimensao}}</td>
-                        <td>{{item.item}}</td>
-                        <td>{{item.nome}} | {{item.ambiente}} | {{item.largura}} x {{item.altura}}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-{% endif %}
+<!doctype html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <title>{% block title %}Home{% endblock %}</title>
+        <link rel="stylesheet" type="text/css" href="{% static '/css/main.css' %}">
+        <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+        <link rel="icon" type="image/x-icon" href="{% static '/images/favicon.ico' %}">
+        <script type='text/javascript' href="{% static '/js/main.css' %}"></script>
+    </head>
+    <body>
+        <div class="header_packing_view">
+            <h2 style="display: inline-block;">{{order.order_number}}</h2>
+            <div class="packing_form" style="display: inline-block">
+                <form method="post" action="/embalagem/">
+                    {% csrf_token %}
+                    <button type="submit" id="dowload_report" value="download" name="download" >
+                        <i class='bx bx-download'></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="content">
+            <div class="complement_info">
+                <table class="report_content">
+                    <thead>
+                        <tr>
+                            <td>Quantidade</td>
+                            <td>Dimensão</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for dim, quant in dims.items%}
+                            <tr>
+                                <td>{{quant}}</td>
+                                <td>{{dim}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <table class="report_content">
+                    <thead>
+                        <tr>
+                            <td>Volume</td>
+                            <td>Peso</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for vol, peso in pesos.items%}
+                            <tr>
+                                <td>{{vol}}</td>
+                                <td>{{peso}} kg</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+                
+            <div class="report_field">
+                <table class="report_content packing_table">
+                    <thead>
+                        <tr>
+                            <td>Volume</td>
+                            <td>Tamanho da caixa</td>
+                            <td>Item</td>
+                            <td>Descrição</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in order.item_set.all%}
+                            <tr>
+                                <td>{{item.volume}}</td>
+                                {% if item.id in chosenOnes %}
+                                    <td>{{item.dimensao}}</td>
+                                {% else %}
+                                    <td> </td>
+                                {% endif %}
+                                <td>{{item.item}}</td>
+                                <td>{{item.nome}} {{item.largura}} x {{item.altura}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>
 {% endblock %}

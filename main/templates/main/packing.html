@@ -1,45 +1,102 @@
 {% extends 'main/base.html' %}
 
+{% block title %}
+Embalagem
+{% endblock %}
+
 {% block content %}
 <div class="header_packing">
     <div class="packing_form">
         <form method="post" action="/embalagem/">
             {% csrf_token %}
-            <input type="text" placeholder="e.g. 9009" name="order">
-            <button type="submit" id="create_report" value="create" name="create">
-                <i class='bx bx-search'></i>
-            </button>
-            <button type="submit" id="filter_report" value="filter" name="filter">
-                <i class='bx bx-filter-alt'></i>
-            </button>
-            <button type="submit" id="dowload_report" value="download" name="download">
-                <i class='bx bx-download'></i>
-            </button>
+            <div class="header_packing_content">
+                <div id="search_div">
+                    <input type="text" placeholder="e.g. 9009" name="order" value="{{order.order_number}}">
+                    <button type="submit" id="search_report" value="search" name="search">
+                        <i class='bx bx-search'></i>
+                    </button>
+                </div>
+                <div id="buttons_div">
+                    <button type="submit" id="refresh_report" value="refresh" name="refresh">
+                        <i class='bx bx-refresh'></i>
+                    </button>
+                    <button type="submit" id="filter_report" value="filter" name="filter">
+                        <i class='bx bx-filter-alt'></i>
+                    </button>
+                    <button type="submit" id="dowload_report" value="download" name="download">
+                        <i class='bx bx-download'></i>
+                    </button>
+                </div>
+            </div>
         </form>
     </div>
 </div>
 {% if order != False %}
-    <div class="report_field">
+<div class="content">
+    <div class="complement_info">
+        <table class="report_content">
+            <thead>
+                <tr>
+                    <td>Quantidade</td>
+                    <td>Dimensão</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for dim, quant in dims.items%}
+                    <tr>
+                        <td>{{quant}}</td>
+                        <td>{{dim}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
         <table class="report_content">
             <thead>
                 <tr>
                     <td>Volume</td>
-                    <td>Tamanho da caixa</td>
-                    <td>Item</td>
-                    <td>Descrição</td>
+                    <td>Peso</td>
                 </tr>
             </thead>
             <tbody>
-                {% for item in order.item_set.all%}
+                {% for vol, peso in pesos.items%}
                     <tr>
-                        <td>{{item.volume}}</td>
-                        <td>{{item.dimensao}}</td>
-                        <td>{{item.item}}</td>
-                        <td>{{item.nome}} {{item.largura}} x {{item.altura}}</td>
+                        <td>{{vol}}</td>
+                        <td>{{peso}} kg</td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
+    <div class="report_field">
+        <form method="post" action="/embalagem/" id="form_changes">
+            {% csrf_token %}
+            <table class="report_content packing_table">
+                <thead>
+                    <tr>
+                        <td>Volume</td>
+                        <td>Tamanho da caixa</td>
+                        <td>Item</td>
+                        <td>Descrição</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in order.item_set.all%}
+                        <tr>
+                        <td><input type="text" placeholder="{{item.volume}}" name="v{{item.id}}" class="input_packing" style="width: 2vw;"></td>
+                            {% if item.id in chosenOnes %}
+                                <td><input type="text" placeholder="{{item.dimensao}}" name="d{{item.id}}" class="input_packing" style="width: 7vw;"></td>
+                            {% else %}
+                                <td> </td>
+                            {% endif %}
+                            <td>{{item.item}}</td>
+                            <td>{{item.nome}} {{item.largura}} x {{item.altura}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <button type="submit" name="save_changes" value="save_changes|{{order.order_number}}">Save</button>
+        </form>
+    </div>
+</div>
 {% endif %}
 {% endblock %}

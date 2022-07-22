@@ -6,11 +6,12 @@ Clientes
 
 {% block content %}
 <div class="main_div">
-<div class="header_content"><h1>Escolha o cliente para a integração</h1></div>
-{% for deal in deals %}
-    <a href="auvo/{{deal.id}}" class="costumer">
-        <div id="costumer_name"><h2>{{deal.title}}</h2></div>
-    </a>
-{% endfor %}
+    <div class="header_content"><h1>Escolha o cliente para a integração</h1></div>
+    {% for deal in deals %}
+        <a href="auvo/{{deal.id}}" class="costumer">
+            <div id="costumer_name"><h2>{{deal.title}}</h2></div>
+        </a>
+    {% endfor %}
+    </div>
 </div>
 {% endblock %}
